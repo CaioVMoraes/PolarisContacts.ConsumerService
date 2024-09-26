@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-PolarisContacts.ConsumerService-d8ae11a6-01fd-44d0-b22e-fcb8003e87c9</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PolarisContacts.ConsumerService.Application\PolarisContacts.ConsumerService.Application.csproj" />
+    <ProjectReference Include="..\PolarisContacts.ConsumerService.CrossCutting.DependencyInjection\PolarisContacts.ConsumerService.CrossCutting.DependencyInjection.csproj" />
+    <ProjectReference Include="..\PolarisContacts.ConsumerService.Domain\PolarisContacts.ConsumerService.Domain.csproj" />
+  </ItemGroup>
+</Project>
