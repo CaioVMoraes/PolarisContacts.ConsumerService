@@ -11,11 +11,12 @@ namespace PolarisContacts.ConsumerService.Infrastructure.Repositories
     {
         private readonly IDatabaseConnection _dbConnection = dbConnection;
 
-        public async Task<int> Add(Celular celular, IDbConnection connection = null, IDbTransaction transaction = null)
+        public async Task<int> Add(Celular celular, IDbConnection connection, IDbTransaction transaction)
         {
             string query;
 
-            var isSqlServer = connection is SqlConnection;
+            var isSqlServer = connection.GetType() == typeof(SqlConnection);
+
             if (isSqlServer)
             {
                 // SQL Server

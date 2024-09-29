@@ -3,6 +3,7 @@ using PolarisContacts.ConsumerService.Application.Interfaces.Repositories;
 using PolarisContacts.ConsumerService.Application.Interfaces.Services;
 using PolarisContacts.ConsumerService.Domain;
 using PolarisContacts.ConsumerService.Domain.Enuns;
+using System.Threading.Tasks;
 
 namespace PolarisContacts.ConsumerService.Application.Services
 {
@@ -10,20 +11,20 @@ namespace PolarisContacts.ConsumerService.Application.Services
     {
         private readonly ITelefoneRepository _telefoneRepository = telefoneRepository;
 
-        public void ProcessTelefone(EntityMessage message)
+        public async Task ProcessTelefone(EntityMessage message)
         {
             var telefone = JsonConvert.DeserializeObject<Telefone>(message.EntityData.ToString());
 
             switch (message.Operation)
             {
                 case OperationType.Create:
-                    _telefoneRepository.Add(telefone);
+                    await _telefoneRepository.Add(telefone);
                     break;
                 case OperationType.Update:
-                    _telefoneRepository.Update(telefone);
+                    await _telefoneRepository.Update(telefone);
                     break;
                 case OperationType.Inactivate:
-                    _telefoneRepository.Inactivate(telefone.Id);
+                    await _telefoneRepository.Inactivate(telefone.Id);
                     break;
             }
         }

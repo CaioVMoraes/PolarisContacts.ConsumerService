@@ -1,9 +1,10 @@
 ﻿using PolarisContacts.ConsumerService.Domain;
+using System.Threading.Tasks;
 
 namespace PolarisContacts.ConsumerService.Application.Interfaces.Services
 {
     public interface IEmailService
     {
-        void ProcessEmail(EntityMessage message);
+        Task ProcessEmail(EntityMessage message);
     }
 }

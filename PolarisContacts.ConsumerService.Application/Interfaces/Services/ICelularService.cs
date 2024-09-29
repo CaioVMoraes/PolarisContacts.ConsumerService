@@ -1,9 +1,10 @@
 ﻿using PolarisContacts.ConsumerService.Domain;
+using System.Threading.Tasks;
 
 namespace PolarisContacts.ConsumerService.Application.Interfaces.Services
 {
     public interface ICelularService
     {
-        void ProcessCelular(EntityMessage message);
+        Task ProcessCelular(EntityMessage message);
     }
 }
