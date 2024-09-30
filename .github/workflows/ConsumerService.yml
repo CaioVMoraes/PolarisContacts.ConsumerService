@@ -1,0 +1,61 @@
+name: .NET Core CI - PolarisContacts.ConsumerService
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      rabbitmq:
+        image: rabbitmq:3-management  # Usa a imagem Docker do RabbitMQ com painel de gerenciamento
+        ports:
+          - 5672:5672  # Porta padrão para o RabbitMQ
+          - 15672:15672  # Porta para acessar o management UI, se necessário
+        options: --health-cmd "rabbitmqctl status" --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        dotnet-version: ['8.0.x']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Install dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Run Unit Tests
+      run: dotnet test PolarisContacts.ConsumerService.UnitTests/PolarisContacts.ConsumerService.UnitTests.csproj --configuration Release --no-restore --logger "trx;LogFileName=UnitTestResults/UnitTestResults.trx" --collect:"XPlat Code Coverage"
+
+    - name: Run Integration Tests
+      run: dotnet test PolarisContacts.ConsumerService.IntegrationTests/PolarisContacts.ConsumerService.IntegrationTests.csproj --configuration Release --no-restore --logger "trx;LogFileName=IntegrationTestResults/IntegrationTestResults.trx" --collect:"XPlat Code Coverage"    
+
+    - name: Publish Unit Test Results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: UnitTestResults
+        path: '**/UnitTestResults/UnitTestResults.trx'
+
+    - name: Publish Integration Test Results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: IntegrativeTestResults
+        path: '**/IntegrationTestResults/IntegrationTestResults.trx'
