@@ -17,30 +17,56 @@ namespace PolarisContacts.ConsumerService.IntegrationTests
             _celularRepository = _fixture.ServiceProvider.GetService<ICelularRepository>();
         }
 
-        //[Fact]
-        //public async Task TesteAdicionarCelular()
-        //{
-        //    // Arrange
-        //    var celular = new Celular
-        //    {
-        //        IdRegiao = 1,
-        //        IdContato = 1,
-        //        NumeroCelular = "91234-5678",
-        //        Ativo = true
-        //    };
+        [Fact]
+        public async Task TesteAdicionarCelular()
+        {
+            // Arrange
+            var celular = new Celular
+            {
+                IdRegiao = 1,
+                IdContato = 1,
+                NumeroCelular = "91234-5678",
+                Ativo = true
+            };
 
-        //    // Act
-        //    var id = await _celularRepository.Add(celular);
+            // Act
+            var id = await _celularRepository.Add(celular);
 
-        //    // Assert
-        //    Assert.True(id > 0, "O ID do celular adicionado deve ser maior que 0.");
+            // Assert
+            Assert.True(id > 0, "O ID do celular adicionado deve ser maior que 0.");           
+        }
 
-        //    // Verificar se o celular foi realmente adicionado
-        //    using var connection = _fixture.ServiceProvider.GetService<IDatabaseConnection>().AbrirConexao();
-        //    var celularAdicionado = await connection.QuerySingleOrDefaultAsync<Celular>("SELECT * FROM Celulares WHERE Id = @Id", new { Id = id });
-        //    Assert.NotNull(celularAdicionado);
-        //    Assert.Equal(celular.NumeroCelular, celularAdicionado.NumeroCelular);
-        //}
+        [Fact]
+        public async Task TesteAtualizarCelular()
+        {
+            // Arrange
+            var celular = new Celular
+            {
+                Id = 1,
+                IdRegiao = 1,
+                IdContato = 1,
+                NumeroCelular = "91234-5678",
+                Ativo = true
+            };
 
+            // Act
+            var resultado = await _celularRepository.Update(celular);
+
+            // Assert
+            Assert.True(resultado, "A atualização do celular deve ser bem-sucedida.");
+        }
+
+        [Fact]
+        public async Task TesteInativarCelular()
+        {
+            // Arrange
+            var celularId = 1; // ID do celular a ser inativado
+
+            // Act
+            var resultado = await _celularRepository.Inactivate(celularId);
+
+            // Assert
+            Assert.True(resultado, "A inativação do celular deve ser bem-sucedida.");
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using PolarisContacts.ConsumerService.Application.Interfaces.Repositories;
 using PolarisContacts.ConsumerService.Domain;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -13,10 +14,11 @@ namespace PolarisContacts.ConsumerService.Infrastructure.Repositories
 
         public async Task<int> Add(Celular celular, IDbConnection connection, IDbTransaction transaction)
         {
+            connection ??= _dbConnection.AbrirConexao();
+
             string query;
 
-            var isSqlServer = connection.GetType() == typeof(SqlConnection);
-
+            var isSqlServer = connection is SqlConnection;
             if (isSqlServer)
             {
                 // SQL Server

@@ -61,7 +61,6 @@ namespace PolarisContacts.ConsumerService.Infrastructure.Repositories
                     FOREIGN KEY (IdUsuario) REFERENCES Usuarios(Id)
                 );
 
-                -- Inserção de Dados na Tabela Contatos
                 INSERT INTO Contatos (IdUsuario, Nome, Ativo) VALUES (1, 'Contato Teste', 1);
                 INSERT INTO Contatos (IdUsuario, Nome, Ativo) VALUES (2, 'Contato Teste', 1);
 
@@ -148,6 +147,8 @@ namespace PolarisContacts.ConsumerService.Infrastructure.Repositories
                     FOREIGN KEY (IdContato) REFERENCES Contatos(Id)
                 );
 
+                INSERT INTO Telefones (IdRegiao, IdContato, NumeroTelefone, Ativo) VALUES (1, 1, '9589-8478', 1);
+
                 CREATE TABLE Celulares (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     IdRegiao INTEGER NOT NULL,
@@ -157,6 +158,8 @@ namespace PolarisContacts.ConsumerService.Infrastructure.Repositories
                     FOREIGN KEY (IdContato) REFERENCES Contatos(Id)
                 );
 
+                INSERT INTO Celulares (IdRegiao, IdContato, NumeroCelular, Ativo) VALUES (1, 1, '99589-8478', 1);
+
                 CREATE TABLE Emails (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     IdContato INTEGER NOT NULL,
@@ -164,6 +167,8 @@ namespace PolarisContacts.ConsumerService.Infrastructure.Repositories
                     Ativo BOOLEAN,
                     FOREIGN KEY (IdContato) REFERENCES Contatos(Id)
                 );
+
+                INSERT INTO Emails (IdContato, EnderecoEmail, Ativo) VALUES (1, 'JhonatanTeste@teste.com.br', 1);
 
                 CREATE TABLE Enderecos (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -178,6 +183,8 @@ namespace PolarisContacts.ConsumerService.Infrastructure.Repositories
                     Ativo BOOLEAN,
                     FOREIGN KEY (IdContato) REFERENCES Contatos(Id)
                 );
+
+                INSERT INTO Enderecos (IdContato, Logradouro, Numero, Cidade, Estado, Bairro, Complemento, CEP, Ativo) VALUES (1, 'Rua dos Cabiros', '36', 'São Paulo', 'SP', 'Itajaí', 'Casa', '04855-140', 1)
             ";
                 command.ExecuteNonQuery();
             }

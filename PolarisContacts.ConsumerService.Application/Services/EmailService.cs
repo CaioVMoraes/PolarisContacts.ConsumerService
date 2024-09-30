@@ -18,13 +18,13 @@ namespace PolarisContacts.ConsumerService.Application.Services
             switch (message.Operation)
             {
                 case OperationType.Create:
-                    await _emailRepository.Add(email); // Asynchronously add the email
+                    await _emailRepository.Add(email); 
                     break;
                 case OperationType.Update:
-                    await _emailRepository.Update(email); // Asynchronously update the email
+                    await _emailRepository.Update(email); 
                     break;
                 case OperationType.Inactivate:
-                    await _emailRepository.Inactivate(email.Id); // Asynchronously inactivate the email
+                    await _emailRepository.Inactivate(email.Id); 
                     break;
             }
         }
