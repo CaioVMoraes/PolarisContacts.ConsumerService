@@ -8,7 +8,7 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using static PolarisContacts.ConsumerService.CrossCutting.Helpers.Exceptions.CustomExceptions;
+using static PolarisContacts.ConsumerService.Domain.Exceptions.CustomExceptions;
 
 namespace PolarisContacts.ConsumerService.Application.Services
 {

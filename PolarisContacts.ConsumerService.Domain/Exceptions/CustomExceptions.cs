@@ -1,4 +1,6 @@
-﻿namespace PolarisContacts.ConsumerService.CrossCutting.Helpers.Exceptions
+﻿using System;
+
+namespace PolarisContacts.ConsumerService.Domain.Exceptions
 {
     public static class CustomExceptions
     {
