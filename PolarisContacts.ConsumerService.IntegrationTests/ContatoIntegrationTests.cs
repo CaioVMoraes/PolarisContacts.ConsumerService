@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Xunit;
-using static PolarisContacts.ConsumerService.CrossCutting.Helpers.Exceptions.CustomExceptions;
+using static PolarisContacts.ConsumerService.Domain.Exceptions.CustomExceptions;
 
 namespace PolarisContacts.ConsumerService.IntegrationTests
 {
