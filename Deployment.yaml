@@ -20,11 +20,13 @@ spec:
           ports:
             - containerPort: 80  # Porta padrão (se necessário)
           env:  # Configurações de ambiente, incluindo o RabbitMQ
-            - name: RABBITMQ_HOST
+            - name: RabbitMQ__Host
               value: "rabbitmq"
-            - name: RABBITMQ_PORT
+            - name: RabbitMQ__Port
               value: "5672"
-            - name: RABBITMQ_USER
+            - name: RabbitMQ__Username
               value: "guest"
-            - name: RABBITMQ_PASSWORD
+            - name: RabbitMQ__Password
               value: "guest"
+            - name: DbSettings__ConnectionString
+              value: "Data Source=sql-server,1433;Initial Catalog=PolarisContacts;Persist Security Info=True;User ID=sa;Password=YourStrongPassword!;"

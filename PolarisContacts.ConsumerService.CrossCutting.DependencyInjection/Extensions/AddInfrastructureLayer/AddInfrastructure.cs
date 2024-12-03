@@ -8,7 +8,8 @@ namespace PolarisContacts.ConsumerService.CrossCutting.DependencyInjection.Exten
 public static partial class AddInfrastructureLayerExtensions
 {
     public static IServiceCollection AddSettings(this IServiceCollection services) =>
-        services.AddBindedSettings<DbSettings>();
+        services.AddBindedSettings<DbSettings>()
+                .AddBindedSettings<RabbitMQ>();
 
     public static IServiceCollection AddRepositories(this IServiceCollection services) =>
         services.AddTransient<IUsuarioRepository, UsuarioRepository>()

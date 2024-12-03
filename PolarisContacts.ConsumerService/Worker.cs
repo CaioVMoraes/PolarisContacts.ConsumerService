@@ -1,7 +1,9 @@
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using PolarisContacts.ConsumerService.Application.Interfaces.Services;
 using PolarisContacts.ConsumerService.Domain;
 using PolarisContacts.ConsumerService.Domain.Enuns;
+using PolarisContacts.ConsumerService.Domain.Settings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -19,10 +21,12 @@ public class Worker : BackgroundService
     private readonly IEnderecoService _enderecoService;
     private readonly ICelularService _celularService;
     private readonly IUsuarioService _usuarioService;
+    private readonly PolarisContacts.ConsumerService.Domain.Settings.RabbitMQ _rabbitMqeSttings;
 
     public Worker(ILogger<Worker> logger, IContatoService contatoService, IEmailService emailService,
                                           ITelefoneService telefoneService, IEnderecoService enderecoService,
-                                          ICelularService celularService, IUsuarioService usuarioService)
+                                          ICelularService celularService, IUsuarioService usuarioService,
+                                          IOptions<PolarisContacts.ConsumerService.Domain.Settings.RabbitMQ> rabbitMqeSttings)
     {
         _logger = logger;
         _contatoService = contatoService;
@@ -31,6 +35,7 @@ public class Worker : BackgroundService
         _enderecoService = enderecoService;
         _celularService = celularService;
         _usuarioService = usuarioService;
+        _rabbitMqeSttings = rabbitMqeSttings.Value;
         InitializeRabbitMq();
     }
 
@@ -38,10 +43,10 @@ public class Worker : BackgroundService
     {
         var factory = new ConnectionFactory
         {
-            HostName = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost",
-            Port = int.Parse(Environment.GetEnvironmentVariable("RABBITMQ_PORT") ?? "5672"),
-            UserName = Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? "guest",
-            Password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD") ?? "guest"
+            HostName = _rabbitMqeSttings.Host,
+            Port = _rabbitMqeSttings.Port,
+            UserName = _rabbitMqeSttings.Username,
+            Password = _rabbitMqeSttings.Password
         };
 
         _connection = factory.CreateConnection();
