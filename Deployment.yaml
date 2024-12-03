@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: polaris-consumer
+  labels:
+    app: polaris-consumer
+spec:
+  replicas: 1  # Apenas um pod será criado
+  selector:
+    matchLabels:
+      app: polaris-consumer
+  template:
+    metadata:
+      labels:
+        app: polaris-consumer
+    spec:
+      containers:
+        - name: consumer
+          image: caiovsk/consumer:latest  # Certifique-se de que a imagem está no Docker Hub
+          ports:
+            - containerPort: 80  # Porta padrão (se necessário)
+          env:  # Configurações de ambiente, incluindo o RabbitMQ
+            - name: RABBITMQ_HOST
+              value: "rabbitmq"
+            - name: RABBITMQ_PORT
+              value: "5672"
+            - name: RABBITMQ_USER
+              value: "guest"
+            - name: RABBITMQ_PASSWORD
+              value: "guest"

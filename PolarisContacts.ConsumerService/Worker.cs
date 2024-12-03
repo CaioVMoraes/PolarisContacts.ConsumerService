@@ -36,7 +36,14 @@ public class Worker : BackgroundService
 
     private void InitializeRabbitMq()
     {
-        var factory = new ConnectionFactory() { HostName = "localhost" }; // Coloque o hostname do RabbitMQ aqui
+        var factory = new ConnectionFactory
+        {
+            HostName = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost",
+            Port = int.Parse(Environment.GetEnvironmentVariable("RABBITMQ_PORT") ?? "5672"),
+            UserName = Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? "guest",
+            Password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD") ?? "guest"
+        };
+
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
         _channel.QueueDeclare(queue: "contact_queue", durable: false, exclusive: false, autoDelete: false, arguments: null);
